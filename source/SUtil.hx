@@ -4,7 +4,9 @@ package;
 import android.Permissions;
 import android.content.Context;
 import android.os.Build;
+import android.os.Environment;
 import android.widget.Toast;
+import lime.app.Application;
 #end
 import haxe.CallStack;
 import haxe.io.Path;
@@ -25,11 +27,13 @@ enum StorageType
 {
 	DATA;
 	EXTERNAL_DATA;
+        MEDIA;
 }
 
 /**
  * ...
  * @author Mihai Alexandru (M.A. Jigsaw)
+ * @modified mcagabe19
  */
 class SUtil
 {
@@ -47,6 +51,8 @@ class SUtil
 				daPath = Context.getFilesDir() + '/';
 			case EXTERNAL_DATA:
 				daPath = Context.getExternalFilesDir(null) + '/';
+                        case MEDIA:
+                                daPath = Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName') + '/';
 		}
 		#elseif ios
 		daPath = LimeSystem.applicationStorageDirectory;
