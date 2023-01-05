@@ -133,7 +133,9 @@ class SUtil
 				}
 			}
 		}
-		#end
+                if (!sys.FileSystem.exists(SUtil.getStorageDirectory()))
+			sys.FileSystem.createDirectory(SUtil.getStorageDirectory());
+                #end
 	}
 
 	/**
