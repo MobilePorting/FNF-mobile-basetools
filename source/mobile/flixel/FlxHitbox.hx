@@ -22,7 +22,7 @@ class FlxHitbox extends FlxSpriteGroup
 	/**
 	 * Create the zone.
 	 */
-	public function new()
+	public function new():Void
 	{
 		super();
 
@@ -37,7 +37,7 @@ class FlxHitbox extends FlxSpriteGroup
 	/**
 	 * Clean up memory.
 	 */
-	override function destroy()
+	override function destroy():Void
 	{
 		super.destroy();
 
@@ -70,8 +70,8 @@ class FlxHitbox extends FlxSpriteGroup
 		hint.alpha = 0.00001;
 		hint.onDown.callback = hint.onOver.callback = function()
 		{
-			if (hint.alpha != 0.25)
-				hint.alpha = 0.25;
+			if (hint.alpha != 0.2)
+				hint.alpha = 0.2;
 		}
 		hint.onUp.callback = hint.onOut.callback = function()
 		{
