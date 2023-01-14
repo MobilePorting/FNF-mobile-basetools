@@ -59,7 +59,10 @@ Then, After the Libraries, or where the packeges are located add
 Add
 ```xml
 
-	<!--Allow working memory greater than 1 Gig-->
+	<!--Garbage Collector Stuff (Maybe)-->
+        <haxedef name="HXCPP_GC_SUMMARY" if="debug" />
+        <haxedef name="HXCPP_GC_DYNAMIC_SIZE" if="debug" />
+        <haxedef name="HXCPP_GC_GENERATIONAL" />
 	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
 
 	<!--Always enable Null Object Reference check-->
