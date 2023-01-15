@@ -59,11 +59,12 @@ Then, After the Libraries, or where the packeges are located add
 Add
 ```xml
 
-	<!--Garbage Collector Stuff (Maybe)-->
+	<!--Garbage Collector Stuff (Ram Clean For HXCPP)-->
         <haxedef name="HXCPP_GC_SUMMARY" if="debug" />
         <haxedef name="HXCPP_GC_DYNAMIC_SIZE" if="debug" />
+        <haxedef name="HXCPP_GC_MOVING" />
         <haxedef name="HXCPP_GC_GENERATIONAL" />
-	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
+        <haxedef name="HXCPP_GC_BIG_BLOCKS" />
 
 	<!--Always enable Null Object Reference check-->
 	<haxedef name="HXCPP_CHECK_POINTER" />
