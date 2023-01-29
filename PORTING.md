@@ -64,15 +64,7 @@ Add
 	<haxedef name="HXCPP_STACK_TRACE"/>
 
 	<section if="android">
-		<!--Permissions-->
-		<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
-		<config:android permission="android.permission.ACCESS_WIFI_STATE" />
-		<config:android permission="android.permission.INTERNET" />
-		<config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" />
-		<config:android permission="android.permission.READ_EXTERNAL_STORAGE" />
-		<config:android permission="android.permission.VIBRATE" />
-
-		<!--Gradle-->
+                <!--Gradle-->
 		<config:android gradle-version="7.6" gradle-plugin="7.3.1" />
 
                 <!--Audio Recording Fix-->
