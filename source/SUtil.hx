@@ -4,8 +4,8 @@ package;
 import android.Permissions;
 import android.content.Context;
 import android.os.Build;
-import android.os.Environment;
 import android.widget.Toast;
+import android.os.Environment;
 import lime.app.Application;
 #end
 import haxe.CallStack;
@@ -26,8 +26,9 @@ using StringTools;
 enum StorageType
 {
 	DATA;
+	EXTERNAL;
 	EXTERNAL_DATA;
-        MEDIA;
+	MEDIA;
 }
 
 /**
@@ -51,8 +52,17 @@ class SUtil
 				daPath = Context.getFilesDir() + '/';
 			case EXTERNAL_DATA:
 				daPath = Context.getExternalFilesDir(null) + '/';
-                        case MEDIA:
-                                daPath = Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName') + '/';
+			case EXTERNAL:
+				daPath = Environment.getExternalStorageDirectory() + '/' + '.' + '/' + Application.current.meta.get('file') + '/';
+			case MEDIA:
+				daPath = Environment.getExternalStorageDirectory()
+					+ '/'
+					+ 'Android'
+					+ '/'
+					+ 'media'
+					+ '/'
+					+ Application.current.meta.get('packageName')
+					+ '/';
 		}
 		#elseif ios
 		daPath = LimeSystem.applicationStorageDirectory;
@@ -87,55 +97,15 @@ class SUtil
 				LimeSystem.exit(1);
 			}
 		}
+		#end
 
-		if (Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE)
-			&& Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE))
+		#if mobile
+		if (!sys.FileSystem.exists(SUtil.getStorageDirectory()))
 		{
-			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
-			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n" + SUtil.getStorageDirectory(),
-					'Error!');
-				LimeSystem.exit(1);
-			}
-			else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
-				&& (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods')))
-			{
-				Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the .APK?, expect a crash.",
-					'Error!');
-				LimeSystem.exit(1);
-			}
-			else
-			{
-				if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets'))
-				{
-					Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n" + SUtil.getStorageDirectory(),
-						'Error!');
-					LimeSystem.exit(1);
-				}
-				else if (FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
-				{
-					Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the .APK?, expect a crash.",
-						'Error!');
-					LimeSystem.exit(1);
-				}
-
-				if (!FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
-				{
-					Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n" + SUtil.getStorageDirectory(),
-						'Error!');
-					LimeSystem.exit(1);
-				}
-				else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
-				{
-					Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
-						'Error!');
-					LimeSystem.exit(1);
-				}
-			}
+			Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
+			LimeSystem.exit(1);
 		}
-                if (!sys.FileSystem.exists(SUtil.getStorageDirectory()))
-			sys.FileSystem.createDirectory(SUtil.getStorageDirectory());
-                #end
+		#end
 	}
 
 	/**
@@ -153,31 +123,30 @@ class SUtil
 
 	private static function onError(e:UncaughtErrorEvent):Void
 	{
-		var stack:Array<String> = [];
-		stack.push(e.error);
+		var msg:String = '${e.error}\n';
 
 		for (stackItem in CallStack.exceptionStack(true))
 		{
 			switch (stackItem)
 			{
 				case CFunction:
-					stack.push('Non-Haxe (C) Function');
+					msg += 'Non-Haxe (C) Function';
 				case Module(m):
-					stack.push('Module ($m)');
+					msg += 'Module ($m)';
 				case FilePos(s, file, line, column):
-					stack.push('$file (line $line)');
+					msg += '$file (line $line)';
 				case Method(classname, method):
-					stack.push('$classname (method $method)');
+					msg += '$classname (method $method)';
 				case LocalFunction(name):
-					stack.push('Local Function ($name)');
+					msg += 'Local Function ($name)';
 			}
+
+			msg += '\n';
 		}
 
 		e.preventDefault();
 		e.stopPropagation();
 		e.stopImmediatePropagation();
-
-		final msg:String = stack.join('\n');
 
 		#if sys
 		try
@@ -191,7 +160,7 @@ class SUtil
 				+ '-'
 				+ Date.now().toString().replace(' ', '-').replace(':', "'")
 				+ '.log',
-				msg + '\n');
+				msg);
 		}
 		catch (e:Dynamic)
 		{
@@ -208,6 +177,7 @@ class SUtil
 		LimeSystem.exit(1);
 	}
 
+	#if sys
 	/**
 	 * This is mostly a fork of https://github.com/openfl/hxp/blob/master/src/hxp/System.hx#L595
 	 */
@@ -238,7 +208,6 @@ class SUtil
 		}
 	}
 
-	#if sys
 	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json',
 			fileData:String = 'you forgot to add something in your code lol'):Void
 	{
@@ -290,7 +259,8 @@ class SUtil
 		#if sys
 		Sys.println(msg);
 		#else
-		Log.trace(msg, null); // Pass null to exclude the position.
+		// Pass null to exclude the position.
+		Log.trace(msg, null);
 		#end
 	}
 }
