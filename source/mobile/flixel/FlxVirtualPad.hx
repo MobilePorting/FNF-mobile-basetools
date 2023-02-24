@@ -6,6 +6,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
+import flixel.util.FlxDestroyUtil;
 import mobile.flixel.FlxButton;
 import openfl.display.BitmapData;
 import openfl.utils.Assets;
@@ -164,26 +165,25 @@ class FlxVirtualPad extends FlxSpriteGroup
 	override public function destroy():Void
 	{
 		super.destroy();
+		buttonLeft = FlxDestroyUtil.destroy(buttonLeft);
+		buttonUp = FlxDestroyUtil.destroy(buttonUp);
+		buttonDown = FlxDestroyUtil.destroy(buttonDown);
+		buttonRight = FlxDestroyUtil.destroy(buttonRight);
 
-		buttonLeft = null;
-		buttonUp = null;
-		buttonDown = null;
-		buttonRight = null;
+                buttonLeft2 = FlxDestroyUtil.destroy(buttonLeft);
+		buttonUp2 = FlxDestroyUtil.destroy(buttonUp);
+		buttonDown2 = FlxDestroyUtil.destroy(buttonDown);
+		buttonRight2 = FlxDestroyUtil.destroy(buttonRight);
 
-		buttonLeft2 = null;
-		buttonUp2 = null;
-		buttonDown2 = null;
-		buttonRight2 = null;
-
-		buttonA = null;
-		buttonB = null;
-		buttonC = null;
-		buttonD = null;
-		buttonE = null;
-		buttonV = null;
-		buttonX = null;
-		buttonY = null;
-		buttonZ = null;
+		buttonA = FlxDestroyUtil.destroy(buttonA);
+		buttonB = FlxDestroyUtil.destroy(buttonB);
+		buttonC = FlxDestroyUtil.destroy(buttonC);
+		buttonD = FlxDestroyUtil.destroy(buttonD);
+		buttonE = FlxDestroyUtil.destroy(buttonE);
+		buttonV = FlxDestroyUtil.destroy(buttonV);
+		buttonX = FlxDestroyUtil.destroy(buttonX);
+		buttonY = FlxDestroyUtil.destroy(buttonY);
+		buttonZ = FlxDestroyUtil.destroy(buttonZ);
 	}
 
 	private function createButton(X:Float, Y:Float, Graphic:String, Color:Int = 0xFFFFFF):FlxButton
