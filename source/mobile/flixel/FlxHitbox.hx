@@ -2,6 +2,7 @@ package mobile.flixel;
 
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
+import flixel.util.FlxDestroyUtil;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
 import mobile.flixel.FlxButton;
@@ -41,10 +42,10 @@ class FlxHitbox extends FlxSpriteGroup
 	{
 		super.destroy();
 
-		buttonLeft = null;
-		buttonDown = null;
-		buttonUp = null;
-		buttonRight = null;
+		buttonLeft = FlxDestroyUtil.destroy(buttonLeft);
+		buttonUp = FlxDestroyUtil.destroy(buttonUp);
+		buttonDown = FlxDestroyUtil.destroy(buttonDown);
+		buttonRight = FlxDestroyUtil.destroy(buttonRight);
 	}
 
 	private function createHintGraphic(Width:Int, Height:Int, Color:Int = 0xFFFFFF):BitmapData
