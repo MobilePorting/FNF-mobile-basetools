@@ -11,7 +11,6 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxDestroyUtil;
-import openfl.utils.Assets;
 
 /**
  * A virtual thumbstick - useful for input on mobile devices.
@@ -134,7 +133,7 @@ class FlxJoyStick extends FlxSpriteGroup
 	function createBase():Void
 	{
 		base = new FlxSprite(0, 0);
-		base.loadGraphic(Assets.getBitmapData('assets/mobile/joystick/base.png'));
+		base.loadGraphic('assets/mobile/joystick/base.png');
 		base.x += -base.width * 0.5;
 		base.y += -base.height * 0.5;
 		base.scrollFactor.set();
@@ -153,7 +152,7 @@ class FlxJoyStick extends FlxSpriteGroup
 	function createThumb():Void
 	{
 		thumb = new FlxSprite(0, 0);
-		thumb.loadGraphic(Assets.getBitmapData('assets/mobile/joystick/thumb.png'));
+		thumb.loadGraphic('assets/mobile/joystick/thumb.png');
 		thumb.x += -thumb.width * 0.5;
 		thumb.y += -thumb.height * 0.5;
 		thumb.scrollFactor.set();
