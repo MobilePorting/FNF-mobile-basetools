@@ -528,6 +528,7 @@ removeVirtualPad();
 #end
 
 //if you want it to have a camera
+//NOTE: THIS CODE IS BROKEN RN NOT GONNA USE
 #if mobile
 addVirtualPadCamera();
 #end
@@ -596,7 +597,7 @@ addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, frame
 
 Add
 ```haxe
-SUtil.checkPermissions();
+SUtil.checkFiles();
 ```
 
 This will check for android storage permisions and the `assets` or `mods` directories
