@@ -529,13 +529,8 @@ removeVirtualPad();
 
 //if you want it to have a camera
 #if mobile
-addVirtualPadCamera();
+addVirtualPadCamera(); //if hud disappears add false inside to ().
 #end
-//if hud disappears add false inside to () like this
-#if mobile
-addVirtualPadCamera(false);
-#end
-
 //in states, these need to be added before super.create();
 //in substates, in fuction new at the last line add these
 
@@ -543,7 +538,7 @@ addVirtualPadCamera(false);
 //obj.cameras = [...];
 //things, add
 #if mobile
-addMobileControls();
+addMobileControls(); //if hud disappears add false inside to ().
 #end
 
 //if you want to remove it at some moment use
