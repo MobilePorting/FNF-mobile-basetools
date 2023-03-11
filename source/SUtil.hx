@@ -67,6 +67,11 @@ class SUtil
 	public static function checkFiles():Void
 	{
 		#if mobile
+                if (!sys.FileSystem.exists(SUtil.getStorageDirectory()))
+		{
+			Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
+			LimeSystem.exit(1);
+		}
 		if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 		{
 			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n" + SUtil.getStorageDirectory(),
