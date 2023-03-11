@@ -528,9 +528,12 @@ removeVirtualPad();
 #end
 
 //if you want it to have a camera
-//NOTE: THIS CODE IS BROKEN RN NOT GONNA USE
 #if mobile
 addVirtualPadCamera();
+#end
+//if hud disappears add false inside to () like this
+#if mobile
+addVirtualPadCamera(false);
 #end
 
 //in states, these need to be added before super.create();
