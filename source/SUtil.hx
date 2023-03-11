@@ -1,11 +1,8 @@
 package;
 
 #if android
-import android.Permissions;
 import android.content.Context;
-import android.os.Build;
 import android.widget.Toast;
-import android.os.Environment;
 import lime.app.Application;
 #end
 import haxe.CallStack;
@@ -26,9 +23,9 @@ using StringTools;
 enum StorageType
 {
 	DATA;
-	EXTERNAL;
+        EXTERNAL;
 	EXTERNAL_DATA;
-	MEDIA;
+        MEDIA;
 }
 
 /**
@@ -41,7 +38,7 @@ class SUtil
 	/**
 	 * This returns the external storage path that the game will use by the type.
 	 */
-	public static function getStorageDirectory(type:StorageType = EXTERNAL_DATA):String
+	public static function getStorageDirectory(type:StorageType = EXTERNAL):String
 	{
 		var daPath:String = '';
 
@@ -52,17 +49,10 @@ class SUtil
 				daPath = Context.getFilesDir() + '/';
 			case EXTERNAL_DATA:
 				daPath = Context.getExternalFilesDir(null) + '/';
-			case EXTERNAL:
-				daPath = Environment.getExternalStorageDirectory() + '/' + '.' + '/' + Application.current.meta.get('file') + '/';
+                        case EXTERNAL:
+				daPath = Environment.getExternalStorageDirectory() + '/./' + Application.current.meta.get('file') + '/';
 			case MEDIA:
-				daPath = Environment.getExternalStorageDirectory()
-					+ '/'
-					+ 'Android'
-					+ '/'
-					+ 'media'
-					+ '/'
-					+ Application.current.meta.get('packageName')
-					+ '/';
+				daPath = Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName') + '/';
 		}
 		#elseif ios
 		daPath = LimeSystem.applicationStorageDirectory;
@@ -72,35 +62,12 @@ class SUtil
 	}
 
 	/**
-	 * A simple function that checks for storage permissions and game files/folders.
+	 * A simple function that checks for game files/folders.
 	 */
-	public static function checkPermissions():Void
+	public static function checkFiles():Void
 	{
-		#if android
-		if (!Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE)
-			&& !Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE))
-		{
-			if (VERSION.SDK_INT >= VERSION_CODES.M)
-			{
-				Permissions.requestPermissions([Permissions.WRITE_EXTERNAL_STORAGE, Permissions.READ_EXTERNAL_STORAGE]);
-
-				/**
-				 * Basically for now i can't force the app to stop while its requesting a android permission, so this makes the app to stop while its requesting the specific permission
-				 */
-				Lib.application.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
-					+ '\nPress Ok to see what happens',
-					'Permissions?');
-			}
-			else
-			{
-				Lib.application.window.alert('Please grant the game storage permissions in app settings' + '\nPress Ok to close the app', 'Permissions?');
-				LimeSystem.exit(1);
-			}
-		}
-                #end
-
-                #if mobile
-                if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
+		#if mobile
+		if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 		{
 			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n" + SUtil.getStorageDirectory(),
 				'Error!');
@@ -113,25 +80,34 @@ class SUtil
 				'Error!');
 			LimeSystem.exit(1);
 		}
-                else
-		if (!FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
+		else
 		{
-			Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n" + SUtil.getStorageDirectory(),
-				'Error!');
-			LimeSystem.exit(1);
+			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets'))
+			{
+				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n" + SUtil.getStorageDirectory(),
+					'Error!');
+				LimeSystem.exit(1);
+			}
+			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
+			{
+				Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the .APK?, expect a crash.",
+					'Error!');
+				LimeSystem.exit(1);
+			}
+
+			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
+			{
+				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n" + SUtil.getStorageDirectory(),
+					'Error!');
+				LimeSystem.exit(1);
+			}
+			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
+			{
+				Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
+					'Error!');
+				LimeSystem.exit(1);
+			}
 		}
-		else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
-		{
-			Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
-				'Error!');
-			LimeSystem.exit(1);
-		}
-		if (!sys.FileSystem.exists(SUtil.getStorageDirectory()))
-		{
-			Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
-			LimeSystem.exit(1);
-		}
-                }
 		#end
 	}
 
@@ -150,30 +126,31 @@ class SUtil
 
 	private static function onError(e:UncaughtErrorEvent):Void
 	{
-		var msg:String = '${e.error}\n';
+		var stack:Array<String> = [];
+		stack.push(e.error);
 
 		for (stackItem in CallStack.exceptionStack(true))
 		{
 			switch (stackItem)
 			{
 				case CFunction:
-					msg += 'Non-Haxe (C) Function';
+					stack.push('Non-Haxe (C) Function');
 				case Module(m):
-					msg += 'Module ($m)';
+					stack.push('Module ($m)');
 				case FilePos(s, file, line, column):
-					msg += '$file (line $line)';
+					stack.push('$file (line $line)');
 				case Method(classname, method):
-					msg += '$classname (method $method)';
+					stack.push('$classname (method $method)');
 				case LocalFunction(name):
-					msg += 'Local Function ($name)';
+					stack.push('Local Function ($name)');
 			}
-
-			msg += '\n';
 		}
 
 		e.preventDefault();
 		e.stopPropagation();
 		e.stopImmediatePropagation();
+
+		final msg:String = stack.join('\n');
 
 		#if sys
 		try
@@ -181,13 +158,7 @@ class SUtil
 			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'logs'))
 				FileSystem.createDirectory(SUtil.getStorageDirectory() + 'logs');
 
-			File.saveContent(SUtil.getStorageDirectory()
-				+ 'logs/'
-				+ Lib.application.meta.get('file')
-				+ '-'
-				+ Date.now().toString().replace(' ', '-').replace(':', "'")
-				+ '.log',
-				msg);
+			File.saveContent(SUtil.getStorageDirectory() + 'logs/' + Lib.application.meta.get('file') + '-' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.log', msg + '\n');
 		}
 		catch (e:Dynamic)
 		{
@@ -204,7 +175,6 @@ class SUtil
 		LimeSystem.exit(1);
 	}
 
-	#if sys
 	/**
 	 * This is mostly a fork of https://github.com/openfl/hxp/blob/master/src/hxp/System.hx#L595
 	 */
@@ -235,6 +205,7 @@ class SUtil
 		}
 	}
 
+	#if sys
 	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json',
 			fileData:String = 'you forgot to add something in your code lol'):Void
 	{
@@ -286,8 +257,7 @@ class SUtil
 		#if sys
 		Sys.println(msg);
 		#else
-		// Pass null to exclude the position.
-		Log.trace(msg, null);
+		Log.trace(msg, null); // Pass null to exclude the position.
 		#end
 	}
 }
