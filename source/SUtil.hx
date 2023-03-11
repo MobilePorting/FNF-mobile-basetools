@@ -4,6 +4,7 @@ package;
 import android.content.Context;
 import android.widget.Toast;
 import lime.app.Application;
+import android.os.Environment;
 #end
 import haxe.CallStack;
 import haxe.io.Path;
