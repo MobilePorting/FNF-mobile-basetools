@@ -43,8 +43,8 @@ class FlxHitbox extends FlxSpriteGroup
 		super.destroy();
 
 		buttonLeft = FlxDestroyUtil.destroy(buttonLeft);
-		buttonDown = FlxDestroyUtil.destroy(buttonDown);
 		buttonUp = FlxDestroyUtil.destroy(buttonUp);
+		buttonDown = FlxDestroyUtil.destroy(buttonDown);
 		buttonRight = FlxDestroyUtil.destroy(buttonRight);
 	}
 
