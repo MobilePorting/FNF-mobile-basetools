@@ -61,14 +61,16 @@ Add
 	<!--Always enable Null Object Reference check-->
 	<haxedef name="HXCPP_CHECK_POINTER" />
 	<haxedef name="HXCPP_STACK_LINE" />
-	<haxedef name="HXCPP_STACK_TRACE"/>
+	<haxedef name="HXCPP_STACK_TRACE" />
 
 	<section if="android">
-                <!--Gradle-->
-		<config:android gradle-version="7.4.2" gradle-plugin="7.3.1" />
+		<config>
+			<!--Gradle-->
+			<android gradle-version="7.4.2" gradle-plugin="7.3.1" />
 
-                <!--Audio Recording Fix-->
-		<config:android target-sdk-version="29" if="${lime < 8.1.0}" />
+			<!--Target SDK-->
+			<android target-sdk-version="29" if="${lime &lt; 8.1.0}" />
+		</config>
 	</section>
 
 	<section if="ios">
