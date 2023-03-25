@@ -111,30 +111,42 @@ Add
 	public var trackedInputsUI:Array<FlxActionInput> = [];
 	public var trackedInputsNOTES:Array<FlxActionInput> = [];
 
-	public function addButtonNOTES(action:FlxActionDigital, button:FlxButton, state:FlxInputState)
+	public function addButtonNOTES(action:FlxActionDigital, button:FlxButton, state:FlxInputState):Void
 	{
+		if (button == null)
+			return;
+
 		var input:FlxActionInputDigitalIFlxInput = new FlxActionInputDigitalIFlxInput(button, state);
 		trackedInputsNOTES.push(input);
 		action.add(input);
 	}
 
-	public function addButtonUI(action:FlxActionDigital, button:FlxButton, state:FlxInputState)
+	public function addButtonUI(action:FlxActionDigital, button:FlxButton, state:FlxInputState):Void
 	{
+		if (button == null)
+			return;
+
 		var input:FlxActionInputDigitalIFlxInput = new FlxActionInputDigitalIFlxInput(button, state);
 		trackedInputsUI.push(input);
 		action.add(input);
 	}
 
-	public function setHitBox(Hitbox:FlxHitbox)
+	public function setHitBox(Hitbox:FlxHitbox):Void
 	{
+		if (Hitbox == null)
+			return;
+
 		inline forEachBound(Control.NOTE_UP, (action, state) -> addButtonNOTES(action, Hitbox.buttonUp, state));
 		inline forEachBound(Control.NOTE_DOWN, (action, state) -> addButtonNOTES(action, Hitbox.buttonDown, state));
 		inline forEachBound(Control.NOTE_LEFT, (action, state) -> addButtonNOTES(action, Hitbox.buttonLeft, state));
 		inline forEachBound(Control.NOTE_RIGHT, (action, state) -> addButtonNOTES(action, Hitbox.buttonRight, state));
 	}
 
-	public function setVirtualPadUI(VirtualPad:FlxVirtualPad, DPad:FlxDPadMode, Action:FlxActionMode)
+	public function setVirtualPadUI(VirtualPad:FlxVirtualPad, DPad:FlxDPadMode, Action:FlxActionMode):Void
 	{
+		if (VirtualPad == null)
+			return;
+
 		switch (DPad)
 		{
 			case UP_DOWN:
@@ -177,8 +189,11 @@ Add
 		}
 	}
 
-	public function setVirtualPadNOTES(VirtualPad:FlxVirtualPad, DPad:FlxDPadMode, Action:FlxActionMode)
+	public function setVirtualPadNOTES(VirtualPad:FlxVirtualPad, DPad:FlxDPadMode, Action:FlxActionMode):Void
 	{
+		if (VirtualPad == null)
+			return;
+
 		switch (DPad)
 		{
 			case UP_DOWN:
@@ -349,7 +364,7 @@ Add
 	var trackedInputsMobileControls:Array<FlxActionInput> = [];
 	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
 
-	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode)
+	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode):Void
 	{
 		if (virtualPad != null)
 			removeVirtualPad();
@@ -362,7 +377,7 @@ Add
 		controls.trackedInputsUI = [];
 	}
 
-	public function removeVirtualPad()
+	public function removeVirtualPad():Void
 	{
 		if (trackedInputsVirtualPad.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
@@ -371,7 +386,7 @@ Add
 			remove(virtualPad);
 	}
 
-	public function addMobileControls(DefaultDrawTarget:Bool = true)
+	public function addMobileControls(DefaultDrawTarget:Bool = true):Void
 	{
 		if (mobileControls != null)
 			removeMobileControls();
@@ -401,7 +416,7 @@ Add
 		add(mobileControls);
 	}
 
-	public function removeMobileControls()
+	public function removeMobileControls():Void
 	{
 		if (trackedInputsMobileControls.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsMobileControls);
@@ -410,7 +425,7 @@ Add
 			remove(mobileControls);
 	}
 
-	public function addVirtualPadCamera(DefaultDrawTarget:Bool = true)
+	public function addVirtualPadCamera(DefaultDrawTarget:Bool = true):Void
 	{
 		if (virtualPad != null)
 		{
@@ -468,7 +483,7 @@ Add
 	var virtualPad:FlxVirtualPad;
 	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
 
-	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode)
+	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode):Void
 	{
 		if (virtualPad != null)
 			removeVirtualPad();
@@ -481,7 +496,7 @@ Add
 		controls.trackedInputsUI = [];
 	}
 
-	public function removeVirtualPad()
+	public function removeVirtualPad():Void
 	{
 		if (trackedInputsVirtualPad.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
@@ -490,7 +505,7 @@ Add
 			remove(virtualPad);
 	}
 
-	public function addVirtualPadCamera(DefaultDrawTarget:Bool = true)
+	public function addVirtualPadCamera(DefaultDrawTarget:Bool = true):Void
 	{
 		if (virtualPad != null)
 		{
