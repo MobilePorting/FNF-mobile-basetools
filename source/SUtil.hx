@@ -8,10 +8,10 @@ import android.os.Environment;
 #end
 import haxe.CallStack;
 import haxe.io.Path;
+import lime.utils.Assets as LimeAssets;
 import lime.system.System as LimeSystem;
 import openfl.Lib;
 import openfl.events.UncaughtErrorEvent;
-import openfl.utils.Assets;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
@@ -239,12 +239,12 @@ class SUtil
 	{
 		try
 		{
-			if (!FileSystem.exists(savePath) && Assets.exists(copyPath))
+			if (!FileSystem.exists(savePath) && LimeAssets.exists(copyPath))
 			{
 				if (!FileSystem.exists(Path.directory(savePath)))
 					SUtil.mkDirs(Path.directory(savePath));
 
-				File.saveBytes(savePath, Assets.getBytes(copyPath));
+				File.saveBytes(savePath, LimeAssets.getBytes(copyPath));
 			}
 		}
 		catch (e:Dynamic)

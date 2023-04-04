@@ -1,9 +1,10 @@
 **This should be used for the FNF 0.2.8 update and engines that have this version of FNF**
 
-### PC compile instructions For Android:
+<details>
+  <summary>Windows Compile Instructions for Android</summary>
 
 1. Download
-* [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) - Download the version `19` of it
+* [JDK](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) - Download the version `11` of it
 * [Android Studio](https://developer.android.com/studio) - I recomend you to download the latest version
 * [NDK](https://developer.android.com/ndk/downloads/older_releases?hl=fi) - Download the version `r21e` (This is the version recomended by Lime)
 
@@ -18,12 +19,12 @@ Unzip the NDK (the NDK does not need to be installed because its a zip archive)
 
 5. Open project in CMD/PowerShell `cd (path to fnf source)`
 And run command `lime build android -final`
-The apk will be generated in this path (path to source)\export\release\android\bin\app\build\outputs\apk\debug
-_____________________________________
+The apk will be generated in this path (path to source)`\export\release\android\bin\app\build\outputs\apk\debug`
+</details>
 
-## Instructions:
+## Instructions
 
-1. You Need to install extension-androidtools
+1. You Need to install `extension-androidtools`
 
 To Install it You Need To Open Command prompt/PowerShell And Type
 ```cmd
@@ -32,7 +33,7 @@ haxelib git extension-androidtools https://github.com/jigsaw-4277821/extension-a
 
 2. Download the repository code and paste it in your source code folder
 
-3. You Need to add these things in project.xml
+3. You Need to add these things in `Project.xml`
 
 On This Line
 ```xml
@@ -236,7 +237,7 @@ Add
 		}
 	}
 
-	public function removeVirtualControlsInput(Tinputs:Array<FlxActionInput>)
+	public function removeVirtualControlsInput(Tinputs:Array<FlxActionInput>):Void
 	{
 		for (action in this.digitalActions)
 		{
@@ -408,8 +409,8 @@ Add
 		controls.trackedInputsNOTES = [];
 
 		var camControls:FlxCamera = new FlxCamera();
-		FlxG.cameras.add(camControls, DefaultDrawTarget);
 		camControls.bgColor.alpha = 0;
+		FlxG.cameras.add(camControls, DefaultDrawTarget);
 
 		mobileControls.cameras = [camControls];
 		mobileControls.visible = false;
@@ -430,14 +431,14 @@ Add
 		if (virtualPad != null)
 		{
 			var camControls:FlxCamera = new FlxCamera();
-			FlxG.cameras.add(camControls, DefaultDrawTarget);
 			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
 			virtualPad.cameras = [camControls];
 		}
 	}
 	#end
 
-	override function destroy()
+	override function destroy():Void
 	{
 		#if mobile
 		if (trackedInputsMobileControls.length > 0)
@@ -510,14 +511,14 @@ Add
 		if (virtualPad != null)
 		{
 			var camControls:FlxCamera = new FlxCamera();
-			FlxG.cameras.add(camControls, DefaultDrawTarget);
 			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
 			virtualPad.cameras = [camControls];
 		}
 	}
 	#end
 
-	override function destroy()
+	override function destroy():Void
 	{
 		#if mobile
 		if (trackedInputsVirtualPad.length > 0)

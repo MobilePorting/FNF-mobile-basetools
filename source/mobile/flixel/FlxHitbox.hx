@@ -57,7 +57,7 @@ class FlxHitbox extends FlxSpriteGroup
 		shape.graphics.endFill();
 
 		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
-		bitmap.draw(shape);
+		bitmap.draw(shape, true);
 		return bitmap;
 	}
 
