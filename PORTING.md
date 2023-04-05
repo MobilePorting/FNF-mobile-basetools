@@ -1,4 +1,4 @@
-**This should be used for the FNF 0.2.8 update and engines that have this version of FNF**
+**~~This should be used for the FNF 0.2.8 update and engines that have this version of FNF~~**
 
 <details>
   <summary>Windows Compile Instructions for Android</summary>
@@ -28,7 +28,7 @@ The apk will be generated in this path (path to source)`\export\release\android\
 
 To Install it You Need To Open Command prompt/PowerShell And Type
 ```cmd
-haxelib git extension-androidtools https://github.com/jigsaw-4277821/extension-androidtools.git
+haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools.git
 ```
 
 2. Download the repository code and paste it in your source code folder
@@ -49,7 +49,7 @@ Replace It With
 
 Add
 ```xml
-	<assets path="mobile" rename="assets/mobile" if="mobile" />
+	<assets path="mobile" rename="assets/mobile" if="mobileC" />
 ```
 
 Then, After the Libraries, or where the packeges are located add
@@ -59,6 +59,9 @@ Then, After the Libraries, or where the packeges are located add
 
 Add
 ```xml
+	<!--Mobile Controls Define-->
+	<define name="mobileC" if="mobile" /> <!--Can be added windows, mac or linux-->
+
 	<!--Always enable Null Object Reference check-->
 	<haxedef name="HXCPP_CHECK_POINTER" />
 	<haxedef name="HXCPP_STACK_LINE" />
@@ -91,7 +94,7 @@ import flixel.input.keyboard.FlxKey;
 
 Add
 ```haxe
-#if mobile
+#if mobileC
 import mobile.flixel.FlxButton;
 import mobile.flixel.FlxHitbox;
 import mobile.flixel.FlxVirtualPad;
@@ -108,7 +111,7 @@ override function update()
 
 Add
 ```haxe
-	#if mobile
+	#if mobileC
 	public var trackedInputsUI:Array<FlxActionInput> = [];
 	public var trackedInputsNOTES:Array<FlxActionInput> = [];
 
@@ -289,7 +292,7 @@ And replace these lines (you can skip this if the mod isn't on psych engine)
 
 With
 ```haxe
-	#if !mobile
+	#if !mobileC
 	public function bindKeys(control:Control, keys:Array<FlxKey>)
 	{
 		var copyKeys:Array<FlxKey> = keys.copy();
@@ -342,7 +345,7 @@ With
 
 In the lines you import things add
 ```haxe
-#if mobile
+#if mobileC
 import mobile.MobileControls;
 import mobile.flixel.FlxVirtualPad;
 import flixel.FlxCamera;
@@ -359,7 +362,7 @@ inline function get_controls():Controls
 
 Add
 ```haxe
-	#if mobile
+	#if mobileC
 	var mobileControls:MobileControls;
 	var virtualPad:FlxVirtualPad;
 	var trackedInputsMobileControls:Array<FlxActionInput> = [];
@@ -440,7 +443,7 @@ Add
 
 	override function destroy():Void
 	{
-		#if mobile
+		#if mobileC
 		if (trackedInputsMobileControls.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsMobileControls);
 
@@ -450,7 +453,7 @@ Add
 
 		super.destroy();
 
-		#if mobile
+		#if mobileC
 		if (virtualPad != null)
 			virtualPad = FlxDestroyUtil.destroy(virtualPad);
 
@@ -464,7 +467,7 @@ Add
 
 In the lines you import things add
 ```haxe
-#if mobile
+#if mobileC
 import mobile.flixel.FlxVirtualPad;
 import flixel.FlxCamera;
 import flixel.input.actions.FlxActionInput;
@@ -480,7 +483,7 @@ inline function get_controls():Controls
 
 Add
 ```haxe
-	#if mobile
+	#if mobileC
 	var virtualPad:FlxVirtualPad;
 	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
 
@@ -520,14 +523,14 @@ Add
 
 	override function destroy():Void
 	{
-		#if mobile
+		#if mobileC
 		if (trackedInputsVirtualPad.length > 0)
 			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
 		#end
 
 		super.destroy();
 
-		#if mobile
+		#if mobileC
 		if (virtualPad != null)
 			virtualPad = FlxDestroyUtil.destroy(virtualPad);
 		#end
@@ -536,17 +539,17 @@ Add
 
 And somehow you finished adding the android controls to your mod now on every state/substate add
 ```haxe
-#if mobile
+#if mobileC
 addVirtualPad(LEFT_FULL, A_B);
 #end
 
 //if you want to remove it at some moment use
-#if mobile
+#if mobileC
 removeVirtualPad();
 #end
 
 //if you want it to have a camera
-#if mobile
+#if mobileC
 addVirtualPadCamera(); //if hud disappears add false inside to ().
 #end
 //in states, these need to be added before super.create();
@@ -555,22 +558,22 @@ addVirtualPadCamera(); //if hud disappears add false inside to ().
 //on Playstate.hx after all of the
 //obj.cameras = [...];
 //things, add
-#if mobile
+#if mobileC
 addMobileControls(); //if hud disappears add false inside to ().
 #end
 
 //if you want to remove it at some moment use
-#if mobile
+#if mobileC
 removeMobileControls();
 #end
 
 //to make the controls visible the code is
-#if mobile
+#if mobileC
 mobileControls.visible = true;
 #end
 
 //to make the controls invisible the code is
-#if mobile
+#if mobileC
 mobileControls.visible = false;
 #end
 ```
@@ -641,7 +644,7 @@ SUtil.saveContent("your file name", ".txt", "lololol");
 13. Do an action when you press on the screen
 
 ```haxe
-#if mobile
+#if mobileC
 var justTouched:Bool = false;
 
 for (touch in FlxG.touches.list)
