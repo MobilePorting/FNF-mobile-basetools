@@ -68,7 +68,7 @@ class SUtil
 	public static function checkFiles():Void
 	{
 		#if mobile
-                if (!sys.FileSystem.exists(SUtil.getStorageDirectory()))
+                if (!FileSystem.exists(SUtil.getStorageDirectory()))
 		{
 			Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
 			LimeSystem.exit(1);
@@ -79,8 +79,7 @@ class SUtil
 				'Error!');
 			LimeSystem.exit(1);
 		}
-		else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
-			&& (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods')))
+		else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets')) && (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods')))
 		{
 			Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the .APK?, expect a crash.",
 				'Error!');
@@ -184,6 +183,7 @@ class SUtil
 	/**
 	 * This is mostly a fork of https://github.com/openfl/hxp/blob/master/src/hxp/System.hx#L595
 	 */
+	#if sys
 	public static function mkDirs(directory:String):Void
 	{
 		var total:String = '';
@@ -211,9 +211,7 @@ class SUtil
 		}
 	}
 
-	#if sys
-	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json',
-			fileData:String = 'you forgot to add something in your code lol'):Void
+	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'you forgot to add something in your code lol'):Void
 	{
 		try
 		{
