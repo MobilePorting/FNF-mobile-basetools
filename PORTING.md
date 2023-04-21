@@ -559,7 +559,7 @@ This is a feature to save files with sys.io.File in phone storage in `saves` dir
 SUtil.saveContent("your file name", ".txt", "lololol");
 ```
 
-13. Do an action when you press on the screen
+12. Do an action when you press on the screen
 
 ```haxe
 #if mobileC
