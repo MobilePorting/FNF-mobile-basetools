@@ -79,8 +79,7 @@ Add
 
 	<section if="ios">
 		<!--Dependency--> 
-		<dependency name="Metal.framework" />
-		<dependency name="WebKit.framework" />
+		<dependency name="Metal.framework" if="${lime &lt; 8.0.0}" />
 	</section>
 ```
 
