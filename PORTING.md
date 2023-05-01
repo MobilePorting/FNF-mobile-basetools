@@ -70,7 +70,7 @@ Add
 	<section if="android">
 		<config>
 			<!--Gradle-->
-			<android gradle-version="7.4.2" gradle-plugin="7.3.1" />
+			<!--<android gradle-version="7.4.2" gradle-plugin="7.3.1" />-->
 
 			<!--Target SDK-->
 			<android target-sdk-version="29" if="${lime &lt; 8.1.0}" />
