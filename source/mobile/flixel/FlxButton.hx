@@ -139,7 +139,7 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 	 */
 	public var allowSwiping:Bool = true;
 
-        /**
+	/**
 	 * Whether the button can use multiple fingers on it.
 	 */
 	public var multiTouch:Bool = false;

@@ -66,7 +66,7 @@ class FlxHitbox extends FlxSpriteGroup
 		var hint:FlxButton = new FlxButton(X, Y);
 		hint.loadGraphic(createHintGraphic(Width, Height, Color));
 		hint.solid = false;
-                hint.multiTouch = true;
+		hint.multiTouch = true;
 		hint.immovable = true;
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
