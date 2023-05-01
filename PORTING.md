@@ -6,15 +6,22 @@
 1. Download
 * [JDK](https://www.azul.com/core-post-download/?endpoint=zulu&uuid=3c8a1a48-ccfa-4072-8b24-97883f2accd5) 8 (32 bit)
 * [JDK](https://www.azul.com/core-post-download/?endpoint=zulu&uuid=9768f87c-594f-4d61-9255-4634e3fe4ad3) 8 (64 bit)
-* ~~[SDK](https://developer.android.com/studio) 23.xx.x~~ will be added soon
+* [SDK](https://www.mediafire.com/file/nmk5g9bg58rmnpt/Sdk.7z/file) 29 (32/64 bit)
 * [NDK](https://dl.google.com/android/repository/android-ndk-r15c-windows-x86.zip) r15c (32 bit)
 * [NDK](https://dl.google.com/android/repository/android-ndk-r15c-windows-x86_64.zip) r15c (64 bit)
 
 2. Extract them
 
-3. Run command `lime setup android` in CMD/PowerShell (You need to insert the program paths)
+3. Open CMD/Powershell and do these commands:
+```sh
+cd (path of sdk)/cmdline-tools/bin
+./sdkmanager.bat --sdk_root=(path of sdk) --licenses
+```
+And accept all of the licenses
 
-4. Open project in CMD/PowerShell `cd (path to fnf source)`
+4. Run command `lime setup android` in CMD/PowerShell (You need to insert the program paths)
+
+5. Open project in CMD/PowerShell `cd (path to fnf source)`
 And run command `lime build android -final`
 The apk will be generated in this path (path to source)`\export\release\android\bin\app\build\outputs\apk\debug`
 </details>
