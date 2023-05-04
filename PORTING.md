@@ -74,17 +74,19 @@ Add
 	<section if="android">
 		<config>
 			<!--Gradle-->
-			<!--<android gradle-version="7.4.2" gradle-plugin="7.3.1" />-->
+			<!--<android gradle-version="7.4.2" gradle-plugin="7.3.1" />--> <!-- ENABLE THIS IF YOU HAVE ISSUES AT COMPILE -->
 
 			<!--Target SDK-->
-			<android target-sdk-version="29" if="${lime &lt; 8.1.0}" />
-		</config>
+			<android min-sdk-version="16" target-sdk-version="29" max-sdk-version="33" if="${lime &lt; 8.1.0}"/>
+                </config>
 	</section>
 
 	<section if="ios">
 		<!--Dependency--> 
 		<dependency name="Metal.framework" if="${lime &lt; 8.0.0}" />
 	</section>
+
+        <haxedef name="no-deprecation-warnings" unless="debug" />
 ```
 
 4. Setup Controls.hx
@@ -462,7 +464,7 @@ Add
 	}
 ```
 
-And somehow you finished adding the android controls to your mod now on every state/substate add
+And somehow you finished adding the mobile controls to your mod now on every state/substate add
 ```haxe
 #if mobileC
 addVirtualPad(LEFT_FULL, A_B);
