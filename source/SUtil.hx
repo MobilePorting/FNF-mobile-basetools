@@ -3,20 +3,19 @@ package;
 #if android
 import android.content.Context;
 import android.widget.Toast;
-import lime.app.Application;
 import android.os.Environment;
 #end
 import haxe.CallStack;
 import haxe.io.Path;
-import lime.utils.Assets as LimeAssets;
+import lime.app.Application;
 import lime.system.System as LimeSystem;
+import lime.utils.Assets as LimeAssets;
+import lime.utils.Log as LimeLogger;
 import openfl.Lib;
 import openfl.events.UncaughtErrorEvent;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
-#else
-import haxe.Log;
 #end
 
 using StringTools;
@@ -70,18 +69,17 @@ class SUtil
 		#if mobile
 		if (!FileSystem.exists(SUtil.getStorageDirectory()))
 		{
-			Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
-			LimeSystem.exit(1);
+			/*Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
+			LimeSystem.exit(1);*/
+			FileSystem.createDirectory(SUtil.getStorageDirectory());
 		}
 		if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 		{
-			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n"
-				+ SUtil.getStorageDirectory(),
+			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n" + SUtil.getStorageDirectory(),
 				'Error!');
 			LimeSystem.exit(1);
 		}
-		else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets')
-			&& !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
+		else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
 			&& (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods')))
 		{
 			Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the .APK?, expect a crash.",
@@ -92,13 +90,11 @@ class SUtil
 		{
 			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets'))
 			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n"
-					+ SUtil.getStorageDirectory(),
+				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n" + SUtil.getStorageDirectory(),
 					'Error!');
 				LimeSystem.exit(1);
 			}
-			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'assets')
-				&& !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
+			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
 			{
 				Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the .APK?, expect a crash.",
 					'Error!');
@@ -107,13 +103,11 @@ class SUtil
 
 			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n"
-					+ SUtil.getStorageDirectory(),
+				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n" + SUtil.getStorageDirectory(),
 					'Error!');
 				LimeSystem.exit(1);
 			}
-			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods')
-				&& !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
+			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
 			{
 				Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
 					'Error!');
@@ -146,7 +140,7 @@ class SUtil
 			switch (stackItem)
 			{
 				case CFunction:
-					stack.push('Non-Haxe (C) Function');
+					stack.push('C Function');
 				case Module(m):
 					stack.push('Module ($m)');
 				case FilePos(s, file, line, column):
@@ -175,21 +169,20 @@ class SUtil
 				+ Lib.application.meta.get('file')
 				+ '-'
 				+ Date.now().toString().replace(' ', '-').replace(':', "'")
-				+ '.log',
-				msg
-				+ '\n');
+				+ '.txt',
+				msg + '\n');
 		}
 		catch (e:Dynamic)
 		{
-			#if android
+			#if (android && debug)
 			Toast.makeText("Error!\nClouldn't save the crash dump because:\n" + e, Toast.LENGTH_LONG);
 			#else
-			println("Error!\nClouldn't save the crash dump because:\n" + e);
+			LimeLogger.println("Error!\nClouldn't save the crash dump because:\n" + e);
 			#end
 		}
 		#end
 
-		println(msg);
+		LimeLogger.println(msg);
 		Lib.application.window.alert(msg, 'Error!');
 		LimeSystem.exit(1);
 	}
@@ -201,12 +194,10 @@ class SUtil
 	public static function mkDirs(directory:String):Void
 	{
 		var total:String = '';
-
 		if (directory.substr(0, 1) == '/')
 			total = '/';
 
 		var parts:Array<String> = directory.split('/');
-
 		if (parts.length > 0 && parts[0].indexOf(':') > -1)
 			parts.shift();
 
@@ -234,16 +225,13 @@ class SUtil
 				FileSystem.createDirectory(SUtil.getStorageDirectory() + 'saves');
 
 			File.saveContent(SUtil.getStorageDirectory() + 'saves/' + fileName + fileExtension, fileData);
-			#if android
-			Toast.makeText("File Saved Successfully!", Toast.LENGTH_LONG);
-			#end
 		}
 		catch (e:Dynamic)
 		{
-			#if android
+			#if (android && debug)
 			Toast.makeText("Error!\nClouldn't save the file because:\n" + e, Toast.LENGTH_LONG);
 			#else
-			println("Error!\nClouldn't save the file because:\n" + e);
+			LimeLogger.println("Error!\nClouldn't save the file because:\n" + e);
 			#end
 		}
 	}
@@ -262,21 +250,12 @@ class SUtil
 		}
 		catch (e:Dynamic)
 		{
-			#if android
-			Toast.makeText("Error!\nClouldn't copy the file because:\n" + e, Toast.LENGTH_LONG);
+			#if (android && debug)
+			Toast.makeText('Error!\nClouldn\'t copy the $copyPath because:\n' + e, Toast.LENGTH_LONG);
 			#else
-			println("Error!\nClouldn't copy the file because:\n" + e);
+			LimeLogger.println('Error!\nClouldn\'t copy the $copyPath because:\n' + e);
 			#end
 		}
 	}
 	#end
-
-	private static function println(msg:String):Void
-	{
-		#if sys
-		Sys.println(msg);
-		#else
-		Log.trace(msg, null); // Pass null to exclude the position.
-		#end
-	}
 }
