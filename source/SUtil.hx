@@ -69,9 +69,13 @@ class SUtil
 		#if mobile
 		if (!FileSystem.exists(SUtil.getStorageDirectory()))
 		{
-			/*Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
-			LimeSystem.exit(1);*/
+                        try {
 			FileSystem.createDirectory(SUtil.getStorageDirectory());
+                        }
+                        catch (e){
+                        Lib.application.window.alert('Please create folder to\n' + SUtil.getStorageDirectory() + '\nPress Ok to close the app', 'Error!');
+			LimeSystem.exit(1);
+                        }
 		}
 		if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 		{
