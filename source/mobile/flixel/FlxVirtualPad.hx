@@ -201,7 +201,13 @@ class FlxVirtualPad extends FlxSpriteGroup
 			graphic = FlxG.bitmap.add('assets/mobile/virtualpad/default.png');
 
 		var button:FlxButton = new FlxButton(X, Y);
-		button.frames = FlxTileFrames.fromGraphic(graphic, FlxPoint.get(Std.int(graphic.width / 3), graphic.height));
+		try {
+			button.frames = FlxTileFrames.fromGraphic(graphic, FlxPoint.get(Std.int(graphic.width / 3), graphic.height));
+		}
+		catch (e){
+			trace("Failed to create button(s) " + e.message);
+			return null;
+		}
 		button.solid = false;
 		button.immovable = true;
 		button.scrollFactor.set();
