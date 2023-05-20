@@ -12,19 +12,21 @@
 
 2. Extract them
 
-3. Open CMD/Powershell and do these commands:
-```sh
-cd (path of sdk)/cmdline-tools/bin
-./sdkmanager.bat --sdk_root=(path of sdk) --licenses
-```
-And accept all of the licenses
+3. Run command `lime setup android` in CMD/PowerShell (You need to insert the program paths)
 
-4. Run command `lime setup android` in CMD/PowerShell (You need to insert the program paths)
-
-5. Open project in CMD/PowerShell `cd (path to fnf source)`
+4. Open project in CMD/PowerShell `cd (path to fnf source)`
 And run command `lime build android -final`
 The apk will be generated in this path (path to source)`\export\release\android\bin\app\build\outputs\apk\debug`
 </details>
+
+<details>
+	<summary>Android NDK and SDK for ARM64</summary>
+
+* [JDK](https://www.mediafire.com/file/gw0cvq5u3jfnj4m/jdk11aarch64.tar.xz/file) 11
+* [SDK + NDK](https://www.mediafire.com/file/ypvbco88dvrkqtk/sdk%252Bndkr21baarch64.tar.xz/file) r21b (ARM64) [Recommended]
+* [SDK + NDK](https://www.mediafire.com/file/9q9m0il8vqu7qg6/sdk%252Bndkr17cfixaarch64.tar.xz/file) r17c fixed (ARM64)
+</details>
+
 
 ## Instructions
 
