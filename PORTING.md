@@ -23,8 +23,8 @@ The apk will be generated in this path (path to source)`\export\release\android\
 	<summary>Android NDK and SDK for ARM64</summary>
 
 * [JDK](https://www.mediafire.com/file/gw0cvq5u3jfnj4m/jdk11aarch64.tar.xz/file) 11
-* [SDK + NDK](https://www.mediafire.com/file/ypvbco88dvrkqtk/sdk%252Bndkr21baarch64.tar.xz/file) r21b (ARM64) [Recommended]
-* [SDK + NDK](https://www.mediafire.com/file/9q9m0il8vqu7qg6/sdk%252Bndkr17cfixaarch64.tar.xz/file) r17c fixed (ARM64)
+* [SDK + NDK](https://www.mediafire.com/file/ypvbco88dvrkqtk/sdk%252Bndkr21baarch64.tar.xz/file) r21b (Recommended)
+* [SDK + NDK](https://www.mediafire.com/file/9q9m0il8vqu7qg6/sdk%252Bndkr17cfixaarch64.tar.xz/file) r17c fixed
 </details>
 
 
