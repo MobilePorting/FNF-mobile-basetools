@@ -11,10 +11,17 @@
 * [NDK](https://dl.google.com/android/repository/android-ndk-r15c-windows-x86_64.zip) r15c (64 bit)
 
 2. Extract them
+	
+3. Open CMD/Powershell and do these commands:
+```sh
+cd (path of sdk)/cmdline-tools/bin
+./sdkmanager.bat --sdk_root=(path of sdk) --licenses
+```
+And accept all of the licenses
 
-3. Run command `lime setup android` in CMD/PowerShell (You need to insert the program paths)
+4. Run command `lime setup android` in CMD/PowerShell (You need to insert the program paths)
 
-4. Open project in CMD/PowerShell `cd (path to fnf source)`
+5. Open project in CMD/PowerShell `cd (path to fnf source)`
 And run command `lime build android -final`
 The apk will be generated in this path (path to source)`\export\release\android\bin\app\build\outputs\apk\debug`
 </details>
