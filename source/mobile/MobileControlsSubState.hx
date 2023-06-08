@@ -251,7 +251,7 @@ class MobileControlsSubState extends FlxSubState
 				add(virtualPad);
 			case 'Hitbox':
 				removeControls();
-				hitbox = new FlxHitbox(3, Std.int(FlxG.width / 4), FlxG.height, [0xFF00FF, 0x00FFFF, 0x00FF00, 0xFF0000]);
+				hitbox = new FlxHitbox(4, Std.int(FlxG.width / 4), FlxG.height, [0xFF00FF, 0x00FFFF, 0x00FF00, 0xFF0000]);
 				add(hitbox);
 			default:
 				removeControls();
